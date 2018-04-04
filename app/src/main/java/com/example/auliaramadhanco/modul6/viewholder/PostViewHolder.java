@@ -1,12 +1,12 @@
-package com.google.firebase.quickstart.database.viewholder;
+package com.example.auliaramadhanco.modul6.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.quickstart.database.R;
-import com.google.firebase.quickstart.database.models.Post;
+import com.example.auliaramadhanco.modul6.R;
+import com.example.auliaramadhanco.modul6.models.Post;
 
 public class PostViewHolder extends RecyclerView.ViewHolder {
 

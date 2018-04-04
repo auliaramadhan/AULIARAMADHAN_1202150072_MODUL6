@@ -1,4 +1,4 @@
-package com.google.firebase.quickstart.database;
+package com.example.auliaramadhanco.modul6;
 
 
 import android.support.test.InstrumentationRegistry;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.firebase.quickstart.database;
+package com.example.auliaramadhanco.modul6;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

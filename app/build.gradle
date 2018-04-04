@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        applicationId "com.google.firebase.quickstart.database"
+        applicationId "com.example.auliaramadhanco.modul6"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:12.0.1'
     implementation 'com.google.firebase:firebase-database:12.0.1'
 
+    implementation 'com.google.firebase:firebase-storage:12.0.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
