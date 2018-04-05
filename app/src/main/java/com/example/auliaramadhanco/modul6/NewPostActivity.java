@@ -1,13 +1,19 @@
 package com.example.auliaramadhanco.modul6;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,22 +21,32 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.example.auliaramadhanco.modul6.models.Post;
 import com.example.auliaramadhanco.modul6.models.User;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NewPostActivity extends BaseActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     private static final String TAG = "NewPostActivity";
     private static final String REQUIRED = "Required";
 
     // [START declare_database_ref]
+    private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
     private EditText mTitleField;
     private EditText mBodyField;
+    private Button mButtonChooseImage;
+    private ImageView mImageView;
     private FloatingActionButton mSubmitButton;
+    private Uri mImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +54,7 @@ public class NewPostActivity extends BaseActivity {
         setContentView(R.layout.activity_new_post);
 
         // [START initialize_database_ref]
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
@@ -45,12 +62,44 @@ public class NewPostActivity extends BaseActivity {
         mBodyField = findViewById(R.id.field_body);
         mSubmitButton = findViewById(R.id.fab_submit_post);
 
+        mButtonChooseImage = findViewById(R.id.choose_image);
+        mImageView = findViewById(R.id.image_chosen);
+
+        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitPost();
             }
         });
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            File file = new File(mImageUri.getPath());
+
+
+            Picasso.get().load(mImageUri).into(mImageView);
+        }
     }
 
     private void submitPost() {
